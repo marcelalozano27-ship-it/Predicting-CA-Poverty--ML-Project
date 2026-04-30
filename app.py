@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Load model and feature names
+# Load model + feature names
 model = joblib.load("xgb_poverty_model.pkl")
 feature_names = joblib.load("feature_names.pkl")
 
@@ -10,54 +10,125 @@ st.set_page_config(page_title="CA Poverty Risk Predictor", layout="centered")
 
 st.title("California Poverty Risk Predictor")
 st.write(
-    "This app uses an XGBoost machine learning model trained on ACS data "
-    "to predict whether an individual may be below the poverty line."
+    "This app predicts whether an individual is likely below the poverty line "
+    "based on socioeconomic indicators from the American Community Survey (ACS)."
 )
 
 st.markdown("### Enter Individual Characteristics")
 
-# Main numeric inputs
-age = st.number_input("Age", min_value=0, max_value=100, value=35)
-education = st.number_input("Education Level Code (SCHL)", min_value=0, max_value=30, value=16)
-hours_worked = st.number_input("Usual Hours Worked Per Week (WKHP)", min_value=0, max_value=99, value=40)
-wage_income = st.number_input("Wage Income (WAGP)", min_value=0, value=30000)
+# Age
+age = st.number_input(
+    "Age (AGEP)",
+    min_value=0,
+    max_value=100,
+    value=35,
+    help="Age of the individual in years."
+)
 
-# Categorical ACS code inputs
+# Education
+education = st.selectbox(
+    "Education Level (SCHL)",
+    options=[
+        (1, "No schooling completed"),
+        (16, "Regular high school diploma"),
+        (19, "Some college, no degree"),
+        (20, "Associate's degree"),
+        (21, "Bachelor's degree"),
+        (22, "Master's degree"),
+        (23, "Professional degree"),
+        (24, "Doctorate degree"),
+    ],
+    format_func=lambda x: f"{x[0]} = {x[1]}"
+)[0]
+
+# Hours worked
+hours_worked = st.number_input(
+    "Usual Hours Worked Per Week (WKHP)",
+    min_value=0,
+    max_value=99,
+    value=40,
+    help="Typical number of hours worked per week."
+)
+
+# Wage income
+wage_income = st.number_input(
+    "Annual Wage Income (WAGP)",
+    min_value=0,
+    value=30000,
+    help="Total wage and salary income earned in the past 12 months."
+)
+
+# Employment status
 employment_status = st.selectbox(
     "Employment Status (ESR)",
-    options=[1, 2, 3, 4, 5, 6],
-    help="ACS employment status code"
-)
+    options=[
+        (1, "Civilian employed, at work"),
+        (2, "Civilian employed, with a job but not at work"),
+        (3, "Unemployed"),
+        (4, "Armed forces, at work"),
+        (5, "Armed forces, with a job but not at work"),
+        (6, "Not in labor force"),
+    ],
+    format_func=lambda x: f"{x[0]} = {x[1]}"
+)[0]
 
+# Marital status
 marital_status = st.selectbox(
     "Marital Status (MAR)",
-    options=[1, 2, 3, 4, 5],
-    help="ACS marital status code"
-)
+    options=[
+        (1, "Married"),
+        (2, "Widowed"),
+        (3, "Divorced"),
+        (4, "Separated"),
+        (5, "Never married / under 15"),
+    ],
+    format_func=lambda x: f"{x[0]} = {x[1]}"
+)[0]
 
+# Citizenship
 citizenship = st.selectbox(
     "Citizenship Status (CIT)",
-    options=[1, 2, 3, 4, 5],
-    help="ACS citizenship status code"
-)
+    options=[
+        (1, "Born in the U.S."),
+        (2, "Born in Puerto Rico, Guam, U.S. Virgin Islands, or Northern Marianas"),
+        (3, "Born abroad to U.S. citizen parents"),
+        (4, "U.S. citizen by naturalization"),
+        (5, "Not a U.S. citizen"),
+    ],
+    format_func=lambda x: f"{x[0]} = {x[1]}"
+)[0]
 
+# Health coverage
 health_coverage = st.selectbox(
-    "Has Health Coverage (HICOV)",
-    options=[1, 2],
-    help="ACS code: 1 = has coverage, 2 = no coverage"
-)
+    "Health Insurance Coverage (HICOV)",
+    options=[
+        (1, "Has health insurance coverage"),
+        (2, "No health insurance coverage"),
+    ],
+    format_func=lambda x: f"{x[0]} = {x[1]}"
+)[0]
 
+# Class of worker
 class_worker = st.selectbox(
     "Class of Worker (COW)",
-    options=[1, 2, 3, 4, 5, 6, 7, 8, 9],
-    help="ACS class of worker code"
-)
+    options=[
+        (1, "Private for-profit employee"),
+        (2, "Private not-for-profit employee"),
+        (3, "Local government employee"),
+        (4, "State government employee"),
+        (5, "Federal government employee"),
+        (6, "Self-employed in own not incorporated business"),
+        (7, "Self-employed in own incorporated business"),
+        (8, "Working without pay in family business"),
+        (9, "Unemployed / not worked in past 5 years"),
+    ],
+    format_func=lambda x: f"{x[0]} = {x[1]}"
+)[0]
 
-# Create blank row with all training features
+# Build dataframe matching training structure
 input_data = pd.DataFrame(columns=feature_names)
 input_data.loc[0] = 0
 
-# Fill only columns that exist in training data
 user_values = {
     "AGEP": age,
     "SCHL": education,
@@ -74,29 +145,24 @@ for col, value in user_values.items():
     if col in input_data.columns:
         input_data.loc[0, col] = value
 
-# Reorder columns exactly like training
 input_data = input_data[feature_names]
 
 st.markdown("---")
 
 if st.button("Predict Poverty Risk"):
-    prediction = model.predict(input_data)[0]
 
-    if hasattr(model, "predict_proba"):
-        probability = model.predict_proba(input_data)[0][1]
-    else:
-        probability = None
+    prediction = model.predict(input_data)[0]
+    probability = model.predict_proba(input_data)[0][1]
 
     st.subheader("Prediction Result")
 
     if prediction == 1:
-        st.warning("Predicted: Below Poverty Line / Higher Poverty Risk")
+        st.error("Predicted: Below Poverty Line / Higher Poverty Risk")
     else:
         st.success("Predicted: Above Poverty Line / Lower Poverty Risk")
 
-    if probability is not None:
-        st.write(f"Estimated probability of poverty risk: **{probability:.2%}**")
+    st.write(f"Estimated probability of poverty risk: **{probability:.2%}**")
 
     st.caption(
-        "Note: This model is for educational purposes and should not be used as the sole basis for policy or eligibility decisions."
+        "Prediction generated using an XGBoost classification model trained on ACS socioeconomic indicators."
     )
