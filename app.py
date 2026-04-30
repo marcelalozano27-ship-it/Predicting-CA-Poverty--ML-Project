@@ -7,16 +7,13 @@ model = joblib.load("xgb_poverty_model.pkl")
 feature_names = joblib.load("feature_names.pkl")
 
 st.set_page_config(page_title="CA Poverty Risk Predictor", layout="centered")
-
 st.title("California Poverty Risk Predictor")
-st.write(
-    "This app predicts whether an individual is likely below the poverty line "
-    "based on socioeconomic indicators from the American Community Survey (ACS)."
-)
+
 st.info(
-    "This tool estimates the probability that an individual falls below the U.S. poverty threshold "
-    "using demographic and employment variables from the American Community Survey (ACS). "
-    "Each dropdown shows the original ACS code and its description."
+    "Enter demographic and employment characteristics below to estimate the probability "
+    "that an individual falls below the U.S. poverty threshold. "
+    "Inputs are based on American Community Survey (ACS) variables, and dropdown menus include "
+    "plain-English explanations of each Census category."
 )
 st.markdown("### Enter Individual Characteristics")
 
@@ -154,7 +151,7 @@ input_data = input_data[feature_names]
 st.markdown("### Key Drivers of Poverty Prediction")
 
 st.write(
-    "The model relies most heavily on wage income, employment status, hours worked, "
+    "The model relies most strongly on wage income, employment status, hours worked per week, "
     "education level, and health insurance coverage when estimating poverty risk."
 )
 
