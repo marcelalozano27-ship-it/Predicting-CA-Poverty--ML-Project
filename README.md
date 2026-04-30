@@ -20,13 +20,13 @@ Which individuals in California are most vulnerable to poverty based on their ed
 
 ### Supporting Research Questions
 
-**Education and Poverty Risk**  
+#### Education and Poverty Risk**  
 How does education level affect the likelihood of experiencing poverty in California?
 
-**Employment Conditions and Poverty Risk**  
+#### Employment Conditions and Poverty Risk 
 Which employment patterns are most associated with poverty risk?
 
-**Demographic Inequality and Poverty Risk**  
+#### Demographic Inequality and Poverty Risk
 
 How do age, marital status, citizenship status, and other demographic characteristics relate to poverty vulnerability?
 
