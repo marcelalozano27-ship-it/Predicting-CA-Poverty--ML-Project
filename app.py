@@ -13,7 +13,11 @@ st.write(
     "This app predicts whether an individual is likely below the poverty line "
     "based on socioeconomic indicators from the American Community Survey (ACS)."
 )
-
+st.info(
+    "This tool estimates the probability that an individual falls below the U.S. poverty threshold "
+    "using demographic and employment variables from the American Community Survey (ACS). "
+    "Each dropdown shows the original ACS code and its description."
+)
 st.markdown("### Enter Individual Characteristics")
 
 # Age
@@ -62,12 +66,12 @@ wage_income = st.number_input(
 employment_status = st.selectbox(
     "Employment Status (ESR)",
     options=[
-        (1, "Civilian employed, at work"),
-        (2, "Civilian employed, with a job but not at work"),
-        (3, "Unemployed"),
-        (4, "Armed forces, at work"),
-        (5, "Armed forces, with a job but not at work"),
-        (6, "Not in labor force"),
+        (1, "Working currently (full-time, part-time, self-employed, gig work)"),
+        (2, "Has a job but temporarily not working (vacation, sick leave, parental leave, strike)"),
+        (3, "Unemployed and actively looking for work"),
+        (4, "Active-duty military currently working"),
+        (5, "Active-duty military temporarily not working"),
+        (6, "Not working and not seeking employment (student, retired, disabled, caregiver)"),
     ],
     format_func=lambda x: f"{x[0]} = {x[1]}"
 )[0]
@@ -147,7 +151,12 @@ for col, value in user_values.items():
 
 input_data = input_data[feature_names]
 
-st.markdown("---")
+st.markdown("### Key Drivers of Poverty Prediction")
+
+st.write(
+    "The model relies most heavily on wage income, employment status, hours worked, "
+    "education level, and health insurance coverage when estimating poverty risk."
+)
 
 if st.button("Predict Poverty Risk"):
 
@@ -162,7 +171,8 @@ if st.button("Predict Poverty Risk"):
         st.success("Predicted: Above Poverty Line / Lower Poverty Risk")
 
     st.write(f"Estimated probability of poverty risk: **{probability:.2%}**")
-
+    st.write("Higher probabilities indicate greater model-estimated likelihood of being below the poverty threshold.")
+    
     st.caption(
         "Prediction generated using an XGBoost classification model trained on ACS socioeconomic indicators."
     )
