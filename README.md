@@ -33,10 +33,13 @@ How do age, marital status, citizenship status, and other demographic characteri
 ---
 ### Data Download and Subset Creation
 
-The dataset is derived from the **American Community Survey (ACS) Public Use Microdata Sample (PUMS)**, which provides demographic, employment, and income indicators across the United States. Because the full ACS PUMS file is very large and contains hundreds of variables, we created a focused project subset for faster processing and reproducibility.
+This project uses individual level data from the American Community Survey (ACS) Public Use Microdata Sample for California. The full ACS dataset contains thousands of variables, many of which are not relevant for poverty classification tasks.
 
-Using DuckDB, we selected variables related to education, employment, income, demographics, health insurance, and disability status.
-The final subset contains 25,000 sampled California individual records and 27 modeling variables. This subset was saved as a CSV and uploaded to GitHub so the notebook can be run without repeatedly downloading and processing the full ACS file.
+To improve modeling efficiency and reproducibility, we created a structured analytical subset using DuckDB. Variables were selected based on their theoretical relationship to poverty risk, including education, employment status, wage income, housing burden, demographic characteristics, language ability, and health insurance coverage.
+
+A binary target variable, `poverty_status`, was engineered from the Poverty Income Ratio (POVPIP), where individuals with POVPIP < 100 were labeled as living below the poverty threshold and those with POVPIP ≥ 100 were labeled as above the poverty threshold.
+
+The resulting dataset contains approximately 25,000 sampled observations and 27 predictor variables. This cleaned subset was exported as a CSV file and stored in the project repository to ensure consistent replication of results across environments.
 
 ### Features Used
 
