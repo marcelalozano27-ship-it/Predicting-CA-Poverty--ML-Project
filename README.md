@@ -191,12 +191,22 @@ Future work could incorporate geographic cost-of-living adjustments and addition
 ## Repository Structure
 
 ```
-MLFinalProject.ipynb
-app.py
-requirements.txt
-xgb_poverty_model.pkl
-feature_names.pkl
-ca_poverty_subset_final.csv
+├── MLFinalProject.ipynb          # Main notebook (EDA, modeling, evaluation)
+├── app.py                       # Streamlit app for deployment
+├── requirements.txt             # Project dependencies
+
+├── data/
+│   └── ca_poverty_subset_final.csv   # Final cleaned dataset used for modeling
+
+├── models/
+│   ├── xgb_poverty_model.pkl        # Trained XGBoost model
+│   ├── random_forest_poverty_model.pkl  # (if used in app or comparison)
+│   └── feature_names.pkl            # Feature order for inference
+
+├── reports/
+│   └── ML Final Project Report.pdf  # Final written report
+
+├── README.md                   # Project overview, setup, usage
 ```
 
 ---
