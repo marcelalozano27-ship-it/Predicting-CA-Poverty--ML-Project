@@ -38,6 +38,7 @@ This project uses individual level data from the American Community Survey (ACS)
 To improve modeling efficiency and reproducibility, we created a structured analytical subset using DuckDB. Variables were selected based on their theoretical relationship to poverty risk, including education, employment status, wage income, housing burden, demographic characteristics, language ability, and health insurance coverage.
 
 A binary target variable, `poverty_status`, was engineered from the Poverty Income Ratio (POVPIP), where individuals with POVPIP < 100 were labeled as living below the poverty threshold and those with POVPIP ≥ 100 were labeled as above the poverty threshold.
+The POVPIP variable represents household income as a percentage of the federal poverty threshold, making it a standard indicator for identifying individuals living below the poverty line in ACS microdata.
 
 The resulting dataset contains approximately 25,000 sampled observations and 27 predictor variables. This cleaned subset was exported as a CSV file and stored in the project repository to ensure consistent replication of results across environments.
 
