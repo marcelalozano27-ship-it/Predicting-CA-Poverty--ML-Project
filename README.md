@@ -20,7 +20,7 @@ Which individuals in California are most vulnerable to poverty based on their ed
 
 ### Supporting Research Questions
 
-#### Education and Poverty Risk**  
+#### Education and Poverty Risk  
 How does education level affect the likelihood of experiencing poverty in California?
 
 #### Employment Conditions and Poverty Risk 
@@ -31,10 +31,12 @@ Which employment patterns are most associated with poverty risk?
 How do age, marital status, citizenship status, and other demographic characteristics relate to poverty vulnerability?
 
 ---
+### Data Download and Subset Creation
 
-## Dataset
+The dataset is derived from the **American Community Survey (ACS) Public Use Microdata Sample (PUMS)**, which provides demographic, employment, and income indicators across the United States. Because the full ACS PUMS file is very large and contains hundreds of variables, we created a focused project subset for faster processing and reproducibility.
 
-The dataset is derived from the **American Community Survey (ACS) Public Use Microdata Sample (PUMS)**, which provides demographic, employment, and income indicators across the United States.
+Using DuckDB, we selected variables related to education, employment, income, demographics, health insurance, and disability status.
+The final subset contains 25,000 sampled California individual records and 27 modeling variables. This subset was saved as a CSV and uploaded to GitHub so the notebook can be run without repeatedly downloading and processing the full ACS file.
 
 ### Features Used
 
