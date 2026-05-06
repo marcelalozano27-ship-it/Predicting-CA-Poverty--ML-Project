@@ -191,7 +191,7 @@ Future work could incorporate geographic cost-of-living adjustments and addition
 ## Repository Structure
 
 ```
-├── MLFinalProject.ipynb          # Main notebook (EDA, modeling, evaluation)
+MLFinalProject.ipynb          # Main notebook (EDA, modeling, evaluation)
 ├── app.py                       # Streamlit app for deployment
 ├── requirements.txt             # Project dependencies
 
