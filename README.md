@@ -187,27 +187,21 @@ Future work could incorporate geographic cost-of-living adjustments and addition
 - joblib
 
 ---
+## Repository Files
 
-## Repository Structure
-
-```
-MLFinalProject.ipynb          # Main notebook (EDA, modeling, evaluation)
-├── app.py                       # Streamlit app for deployment
-├── requirements.txt             # Project dependencies
-
-├── data/
-│   └── ca_poverty_subset_final.csv   # Final cleaned dataset used for modeling
-
-├── models/
-│   ├── xgb_poverty_model.pkl        # Trained XGBoost model
-│   ├── random_forest_poverty_model.pkl  # (if used in app or comparison)
-│   └── feature_names.pkl            # Feature order for inference
-
-├── reports/
-│   └── ML Final Project Report.pdf  # Final written report
-
-├── README.md                   # Project overview, setup, usage
-```
+| File | Description |
+|---|---|
+| `MLFinalProject.ipynb` | Main project notebook containing the full analysis workflow, including data loading, preprocessing, exploratory analysis, feature selection, model training, model evaluation, hyperparameter tuning, SHAP interpretation, and final model comparison. |
+| `app.py` | Streamlit deployment file used to create the interactive poverty risk prediction app. It loads the saved XGBoost model and feature names, accepts user inputs, and returns a predicted poverty classification and probability. |
+| `requirements.txt` | List of Python packages required to run the notebook and Streamlit app, including Streamlit, pandas, scikit-learn, XGBoost, NumPy, and joblib. |
+| `ca_poverty_subset.csv` | Cleaned ACS/PUMS California subset used in the notebook for modeling and analysis. It includes selected demographic, employment, education, health insurance, and poverty-related variables. |
+| `ca_poverty_subset_final.csv` | Final version of the prepared poverty dataset used for reproducibility and deployment support. |
+| `feature_names.pkl` | Saved list of model feature names used to make sure the Streamlit app inputs match the same feature order used during model training. |
+| `xgb_poverty_model.pkl` | Saved trained XGBoost model selected as the final model for poverty risk prediction. |
+| `random_forest_poverty_model.pkl` | Saved Random Forest model used for individual model comparison and evaluation. |
+| `ML Final Project Report.pdf` | Final written report summarizing the project purpose, methodology, model results, conclusions, and limitations. |
+| `Predicting Poverty Vulnerability in California.pdf` | Final presentation slides used to communicate the project findings, model comparison, Streamlit demo, and business/social impact. |
+| `README.md` | Project overview file explaining the research questions, dataset, methods, model selection, deployment, limitations, and file contents. |
 
 ---
 
